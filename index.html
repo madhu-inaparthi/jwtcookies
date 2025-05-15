@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Encryption and Decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>JWT Encryption and Decryption</h1>
+
+    <div class="container">
+        <h2>Test Your Implementation</h2>
+        <p>Enter a JSON payload to encrypt:</p>
+        <textarea id="payload" placeholder='{"userId": 123, "role": "admin"}'></textarea>
+        <button id="encryptBtn">Encrypt</button>
+
+        <div id="tokenContainer" style="display: none;">
+            <p>Encrypted Token:</p>
+            <textarea id="token" readonly></textarea>
+            <button id="decryptBtn">Decrypt</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // This will be replaced with the actual implementation from script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const payloadInput = document.getElementById('payload');
+            const tokenInput = document.getElementById('token');
+            const encryptBtn = document.getElementById('encryptBtn');
+            const decryptBtn = document.getElementById('decryptBtn');
+            const tokenContainer = document.getElementById('tokenContainer');
+            const resultDiv = document.getElementById('result');
+
+            // Test the implementation
+            function testImplementation() {
+                const testPayload = { test: "data" };
+                const token = encrypt(testPayload);
+                const decrypted = decrypt(token);
+
+                if (JSON.stringify(testPayload) === JSON.stringify(decrypted)) {
+                    console.log("Success");
+                } else {
+                    console.log("Failed");
+                }
+            }
+
+            // Run the test
+            testImplementation();
+
+            encryptBtn.addEventListener('click', () => {
+                try {
+                    const payload = JSON.parse(payloadInput.value);
+                    const token = encrypt(payload);
+                    tokenInput.value = token;
+                    tokenContainer.style.display = 'block';
+                    resultDiv.innerHTML = '<p>Payload encrypted successfully!</p>';
+                } catch (error) {
+                    resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+                }
+            });
+
+            decryptBtn.addEventListener('click', () => {
+                try {
+                    const token = tokenInput.value;
+                    const decrypted = decrypt(token);
+                    resultDiv.innerHTML = `<p>Decrypted Payload:</p><pre>${JSON.stringify(decrypted, null, 2)}</pre>`;
+                } catch (error) {
+                    resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+                }
+            });
+        });
+    </script>
+
+    <!-- Include libraries for browser -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        // Check if the implementation works
+        window.addEventListener('load', function() {
+            try {
+                const testPayload = { test: "data" };
+                const token = encrypt(testPayload);
+                const decrypted = decrypt(token);
+
+                if (JSON.stringify(testPayload) === JSON.stringify(decrypted)) {
+                    console.log("Success: JWT encryption and decryption working correctly!");
+                } else {
+                    console.error("Failed: Decrypted payload doesn't match original");
+                }
+            } catch (error) {
+                console.error("Error testing JWT implementation:", error);
+            }
+        });
+    </script>
+</body>
+</html>
